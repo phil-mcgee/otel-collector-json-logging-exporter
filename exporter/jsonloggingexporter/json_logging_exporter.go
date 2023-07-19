@@ -41,7 +41,7 @@ func newLoggingExporter(logger *zap.Logger, verbosity configtelemetry.Level) *js
 	return &jsonLoggingExporter{
 		verbosity:     verbosity,
 		logger:        logger,
-		logsMarshaler: otlptext.NewJsonLogsMarshaler(),
+		logsMarshaler: otlptext.NewJSONLogsMarshaler(),
 	}
 }
 
