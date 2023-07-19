@@ -64,7 +64,7 @@ func TestLogsText(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewJsonLogsMarshaler().MarshalLogs(tt.in)
+			got, err := NewJSONLogsMarshaler().MarshalLogs(tt.in)
 			assert.NoError(t, err)
 			out, err := os.ReadFile(filepath.Join("testdata", "logs", tt.out))
 			require.NoError(t, err)

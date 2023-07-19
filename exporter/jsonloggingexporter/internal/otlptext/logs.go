@@ -7,7 +7,7 @@ import (
 	"go.opentelemetry.io/collector/pdata/plog"
 )
 
-// NewJsonLogsMarshaler returns a plog.Marshaler to encode to OTLP JSON text bytes.
-func NewJsonLogsMarshaler() plog.Marshaler {
+// NewJSONLogsMarshaler returns a plog.Marshaler to encode to OTLP JSON text bytes.
+func NewJSONLogsMarshaler() plog.Marshaler {
 	return &plog.JSONMarshaler{}
 }
