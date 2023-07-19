@@ -1,14 +1,14 @@
 # Logging Exporter
 
-| Status                   |                       |
-| ------------------------ |-----------------------|
-| Stability                | [Development]         |
-| Supported pipeline types | traces, metrics, logs |
-| Distributions            | [core], [contrib]     |
+| Status                   |                   |
+| ------------------------ |-------------------|
+| Stability                | [Development]     |
+| Supported pipeline types | logs              |
+| Distributions            | [core], [contrib] |
 
 Exports data to the console via zap.Logger.
 
-Supported pipeline types: traces, metrics, logs
+Supported pipeline types: logs
 
 ## Getting Started
 
@@ -40,7 +40,3 @@ exporters:
     sampling_initial: 5
     sampling_thereafter: 200
 ```
-
-[contrib]: https://github.com/open-telemetry/opentelemetry-collector-releases/tree/main/distributions/otelcol-contrib
-[core]: https://github.com/open-telemetry/opentelemetry-collector-releases/tree/main/distributions/otelcol
-[Development]: https://github.com/open-telemetry/opentelemetry-collector#in-development

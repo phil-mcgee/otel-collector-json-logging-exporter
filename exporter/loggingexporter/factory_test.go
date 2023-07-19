@@ -31,24 +31,6 @@ func TestCreateDefaultConfig(t *testing.T) {
 	assert.NoError(t, componenttest.CheckConfigStruct(cfg))
 }
 
-func TestCreateMetricsExporter(t *testing.T) {
-	factory := NewFactory()
-	cfg := factory.CreateDefaultConfig()
-
-	me, err := factory.CreateMetricsExporter(context.Background(), exportertest.NewNopCreateSettings(), cfg)
-	assert.NoError(t, err)
-	assert.NotNil(t, me)
-}
-
-func TestCreateTracesExporter(t *testing.T) {
-	factory := NewFactory()
-	cfg := factory.CreateDefaultConfig()
-
-	te, err := factory.CreateTracesExporter(context.Background(), exportertest.NewNopCreateSettings(), cfg)
-	assert.NoError(t, err)
-	assert.NotNil(t, te)
-}
-
 func TestCreateLogsExporter(t *testing.T) {
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig()

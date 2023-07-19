@@ -38,17 +38,17 @@ func TestLogsText(t *testing.T) {
 		{
 			name: "empty_logs",
 			in:   plog.NewLogs(),
-			out:  "empty.out",
+			out:  "empty.json",
 		},
 		{
 			name: "logs_with_one_record",
 			in:   testdata.GenerateLogs(1),
-			out:  "one_record.out",
+			out:  "one_record.json",
 		},
 		{
 			name: "logs_with_two_records",
 			in:   testdata.GenerateLogs(2),
-			out:  "two_records.out",
+			out:  "two_records.json",
 		},
 		{
 			name: "logs_with_embedded_maps",
@@ -70,12 +70,12 @@ func TestLogsText(t *testing.T) {
 				l.Attributes().PutStr("key2", "val2")
 				return ls
 			}(),
-			out: "embedded_maps.out",
+			out: "embedded_maps.json",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewTextLogsMarshaler().MarshalLogs(tt.in)
+			got, err := NewLogsMarshaler().MarshalLogs(tt.in)
 			assert.NoError(t, err)
 			out, err := os.ReadFile(filepath.Join("testdata", "logs", tt.out))
 			require.NoError(t, err)
