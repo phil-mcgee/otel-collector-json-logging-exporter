@@ -15,6 +15,7 @@
 package otlptext
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -77,6 +78,7 @@ func TestLogsText(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := NewLogsMarshaler().MarshalLogs(tt.in)
 			assert.NoError(t, err)
+			fmt.Println("=>", string(got), "<=")
 			out, err := os.ReadFile(filepath.Join("testdata", "logs", tt.out))
 			require.NoError(t, err)
 			expected := strings.ReplaceAll(string(out), "\r", "")

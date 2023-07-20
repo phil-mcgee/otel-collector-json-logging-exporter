@@ -17,7 +17,6 @@ package loggingexporter // import "go.opentelemetry.io/collector/exporter/loggin
 import (
 	"context"
 	"sync"
-	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -82,12 +81,38 @@ func createLogger(cfg *Config, logger *zap.Logger) *zap.Logger {
 		})
 	}
 
-	core := zapcore.NewSamplerWithOptions(
-		logger.Core(),
-		1*time.Second,
-		cfg.SamplingInitial,
-		cfg.SamplingThereafter,
-	)
+	logger, err := DefaultLoggerConfig(cfg).Build()
+	if err != nil {
+		panic(err)
+	}
+	return logger
+}
 
-	return zap.New(core)
+func DefaultLoggerConfig(cfg *Config) zap.Config {
+	return zap.Config{
+		Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
+		Development: false,
+		Sampling: &zap.SamplingConfig{
+			Initial:    cfg.SamplingInitial,
+			Thereafter: cfg.SamplingInitial,
+		},
+		Encoding:         "json",
+		EncoderConfig:    DefaultEncoderConfig(),
+		OutputPaths:      []string{"stderr"},
+		ErrorOutputPaths: []string{"stderr"},
+	}
+}
+
+func DefaultEncoderConfig() zapcore.EncoderConfig {
+	return zapcore.EncoderConfig{
+		TimeKey:        zapcore.OmitKey,
+		LevelKey:       zapcore.OmitKey,
+		NameKey:        zapcore.OmitKey,
+		CallerKey:      zapcore.OmitKey,
+		FunctionKey:    zapcore.OmitKey,
+		MessageKey:     "M",
+		StacktraceKey:  zapcore.OmitKey,
+		LineEnding:     zapcore.DefaultLineEnding,
+		EncodeDuration: zapcore.SecondsDurationEncoder,
+	}
 }
