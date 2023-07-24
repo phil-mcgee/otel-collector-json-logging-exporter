@@ -16,6 +16,7 @@ package loggingexporter // import "go.opentelemetry.io/collector/exporter/loggin
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"os"
 
@@ -44,7 +45,10 @@ func (s *loggingExporter) pushLogs(_ context.Context, ld plog.Logs) error {
 	if err != nil {
 		return err
 	}
-	s.logger.Info(string(buf))
+
+	s.logger.Info("received logs",
+		zap.Any("Logs", json.RawMessage(buf)))
+
 	return nil
 }
 
