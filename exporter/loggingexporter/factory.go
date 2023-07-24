@@ -70,7 +70,7 @@ func createLogsExporter(ctx context.Context, set exporter.CreateSettings, config
 	)
 }
 
-func createLogger(cfg *Config, logger *zap.Logger) *zap.Logger {
+func createLogger(cfg *Config, logger *zap.Logger) *zap.SugaredLogger {
 	if cfg.warnLogLevel {
 		onceWarnLogLevel.Do(func() {
 			logger.Warn(
@@ -85,7 +85,7 @@ func createLogger(cfg *Config, logger *zap.Logger) *zap.Logger {
 	if err != nil {
 		panic(err)
 	}
-	return logger
+	return logger.Sugar()
 }
 
 func DefaultLoggerConfig(cfg *Config) zap.Config {

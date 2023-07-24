@@ -28,27 +28,26 @@ import (
 
 type loggingExporter struct {
 	verbosity     configtelemetry.Level
-	logger        *zap.Logger
+	logger        *zap.SugaredLogger
 	logsMarshaler plog.Marshaler
 }
 
 func (s *loggingExporter) pushLogs(_ context.Context, ld plog.Logs) error {
-	s.logger.Info("LogsExporter",
-		zap.Int("resource logs", ld.ResourceLogs().Len()),
-		zap.Int("log records", ld.LogRecordCount()))
+	s.logger.Info("received log counts",
+		"resource log count", ld.ResourceLogs().Len(),
+		"log record count", ld.LogRecordCount(),
+	)
 	if s.verbosity != configtelemetry.LevelDetailed {
 		return nil
 	}
 
-	buf, err := s.logsMarshaler.MarshalLogs(ld)
-	if err != nil {
-		return err
-	}
-	s.logger.Info(string(buf))
+	s.logger.Info("received logs",
+		"logs", ld,
+	)
 	return nil
 }
 
-func newLoggingExporter(logger *zap.Logger, verbosity configtelemetry.Level) *loggingExporter {
+func newLoggingExporter(logger *zap.SugaredLogger, verbosity configtelemetry.Level) *loggingExporter {
 	return &loggingExporter{
 		verbosity:     verbosity,
 		logger:        logger,
@@ -56,7 +55,7 @@ func newLoggingExporter(logger *zap.Logger, verbosity configtelemetry.Level) *lo
 	}
 }
 
-func loggerSync(logger *zap.Logger) func(context.Context) error {
+func loggerSync(logger *zap.SugaredLogger) func(context.Context) error {
 	return func(context.Context) error {
 		// Currently Sync() return a different error depending on the OS.
 		// Since these are not actionable ignore them.
