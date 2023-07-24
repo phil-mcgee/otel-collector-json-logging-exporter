@@ -110,7 +110,7 @@ func DefaultEncoderConfig() zapcore.EncoderConfig {
 		NameKey:        zapcore.OmitKey,
 		CallerKey:      zapcore.OmitKey,
 		FunctionKey:    zapcore.OmitKey,
-		MessageKey:     "M",
+		MessageKey:     "loggingExporter",
 		StacktraceKey:  zapcore.OmitKey,
 		LineEnding:     zapcore.DefaultLineEnding,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
